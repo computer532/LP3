@@ -1,0 +1,46 @@
+import java.util.*;
+
+public class FibonacciNonRecursiveSteps {
+
+    public static int fibo(int n) {
+        if (n == 0) {
+            System.out.println("F(0) = 0");
+            return 0;
+        }
+        if (n == 1) {
+            System.out.println("F(1) = 1");
+            return 1;
+        }
+
+        int a = 0; // F(0)
+        int b = 1; // F(1)
+        int result = 0;
+
+        System.out.println("F(0) = 0");
+        System.out.println("F(1) = 1");
+
+        for (int i = 2; i <= n; i++) {
+            result = a + b;
+
+            System.out.println("F(" + i + ") = " + a + " + " + b + " = " + result);
+
+            a = b;
+            b = result;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.print("Enter n: ");
+        int n = sc.nextInt();
+
+        int result = fibo(n);
+
+        System.out.println("\nFinal Answer: Fibonacci of " + n + " = " + result);
+
+        sc.close();
+    }
+}
