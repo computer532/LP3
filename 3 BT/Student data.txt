@@ -1,0 +1,74 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+/*
+    Program: Student Data Management (Simplified)
+    Requirements:
+    - Use of Structures
+    - Use of Arrays
+    - Use of Fallback function
+*/
+
+contract StudentData {
+
+    // Structure to store student details
+    struct Student {
+        uint ID;
+        string fName;
+        string lName;
+    }
+
+    // State variables
+    address public owner;
+
+    // Array to store student records
+    // 'public' automatically creates a getter function
+    // We can call 'students(index)' from outside to get a student
+    Student[] public students;
+
+    // Modifier: Only contract owner can call certain functions
+    modifier onlyOwner {
+        require(msg.sender == owner, "Only owner can perform this action");
+        _;
+    }
+
+    // Constructor: Set contract deployer as the owner
+    constructor() {
+        owner = msg.sender;
+    }
+
+    // Function to add new student record (onlyOwner)
+    function addStudent(uint _ID, string memory _fName, string memory _lName) public onlyOwner {
+        students.push(Student(_ID, _fName, _lName)); // Add student to array
+    }
+
+    // Function to get the TOTAL number of students
+    function getStudentCount() public view returns (uint) {
+        return students.length;
+    }
+
+    // --- NO 'getStudent(index)' FUNCTION IS NEEDED ---
+    // The 'public' keyword on the 'students' array already provides this.
+
+    
+    // --- NEW FUNCTION YOU ASKED FOR ---
+    // This function returns the ENTIRE students array at once.
+    // A website can call this to get all data and "display" it.
+    function getAllStudents() public view returns (Student[] memory) {
+        return students;
+    }
+
+
+    // Fallback function — called when an unknown function or plain ETH is sent
+    fallback() external payable {
+        // Just accept ETH
+    }
+
+    // Receive function — to accept ETH transfers directly
+    receive() external payable {}
+
+    // Function to check the contract balance (optional)
+    function getBalance() public view returns (uint) {
+        return address(this).balance;
+    }
+}
